@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFBF4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Primary & Secondary">
+<style>html, body { margin: 0; padding: 0; } img { max-width: 100%; }</style>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Primary & Secondary Shelving Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: brand header, sticky filter row, responsive card grid. */
+:root {
+  --bg: #FFFBF4;
+  --card: #FFFFFF;
+  --card-2: #F8F4EB;
+  --fg: #1A1A1A;
+  --muted: #6B6B6B;
+  --rule: #E8E2D6;
+  --rule-strong: #C9C1B2;
+  --accent: #2563A8;
+  --accent-tint: #E4EEFE;
+  --shadow: 0 4px 16px rgba(0,0,0,.06);
+
+  /* Spine-sticker colours — must match the physical labels. */
+  --c-FIC: #3B82F6; --c-FIC-tint: #E4EEFE;   /* BLUE */
+  --c-GN:  #3B82F6; --c-GN-tint:  #E4EEFE;   /* BLUE (same as FIC per catalogue) */
+  --c-NF:  #F58E1E; --c-NF-tint:  #FFF0DF;   /* ORANGE */
+  --c-RDR: #EC4FA1; --c-RDR-tint: #FFE4F2;   /* PINK */
+  --c-REF: #6B7280; --c-REF-tint: #F0F0F0;   /* GRAY */
+
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15120D; --card: #1F1B14; --card-2: #26211A;
+    --fg: #F2EEE4; --muted: #A49F93;
+    --rule: #312A20; --rule-strong: #4A4133;
+    --accent-tint: #15283F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15120D; --card: #1F1B14; --card-2: #26211A;
+  --fg: #F2EEE4; --muted: #A49F93;
+  --rule: #312A20; --rule-strong: #4A4133;
+  --accent-tint: #15283F;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+body::before {
+  content: "";
+  position: fixed; inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--bg);
+}
+* { box-sizing: border-box; }
+h1, h2, h3 { font-family: Nunito, Inter, sans-serif; margin: 0; text-wrap: balance; }
+
+.hdr { padding-block: 28px 20px; border-bottom: 1px solid var(--rule); }
+.hdr-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.hdr h1 { font-weight: 900; font-size: clamp(28px, 4vw, 38px); letter-spacing: -0.01em; line-height: 1.05; }
+.hdr .brand {
+  font-family: Nunito, sans-serif; font-size: 11px; font-weight: 800;
+  letter-spacing: 1.4px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.hdr p { margin: 10px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 62ch; }
+.hdr .counts { display: flex; gap: 20px; font-size: 13px; color: var(--muted); }
+.hdr .counts b { color: var(--fg); font-weight: 700; font-size: 20px; font-family: Nunito; }
+
+.filterbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); padding-block: 14px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.search { position: relative; }
+.search input {
+  width: 100%; padding: 11px 14px 11px 40px;
+  font-size: 15px; font-family: inherit; color: var(--fg);
+  background: var(--card); border: 1.5px solid var(--rule-strong);
+  border-radius: 12px; outline: none; transition: border-color .15s;
+}
+.search input:focus { border-color: var(--accent); }
+.search::before {
+  content: ""; position: absolute; left: 14px; top: 50%;
+  width: 16px; height: 16px; transform: translateY(-50%);
+  background: no-repeat center/contain url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236B6B6B" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>');
+  pointer-events: none;
+}
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  padding: 7px 14px; font-size: 13px; font-weight: 700;
+  font-family: Nunito; letter-spacing: 0.3px;
+  border-radius: 999px; border: 1.5px solid var(--rule-strong);
+  background: var(--card); color: var(--fg);
+  cursor: pointer; transition: all .15s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.chip:hover { border-color: var(--fg); }
+.chip .count { font-size: 11px; color: var(--muted); font-weight: 600; }
+.chip.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chip.active .count { color: var(--bg); opacity: 0.7; }
+.chip[data-cat] .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--chip-c, var(--accent)); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 18px; padding-block: 24px 48px;
+}
+@media (max-width: 500px) { .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; } }
+
+.card {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: 14px; overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: box-shadow .15s, transform .15s;
+}
+.card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+.band {
+  padding: 10px 12px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: var(--c, var(--accent));
+  color: #fff; font-family: Nunito;
+}
+.band .num {
+  font-weight: 800; font-size: 13px;
+  background: rgba(255,255,255,0.25);
+  padding: 2px 8px; border-radius: 999px;
+  min-width: 32px; text-align: center;
+}
+.band .call { font-weight: 900; font-size: 15px; letter-spacing: 0.2px; text-align: right; }
+
+.cover {
+  aspect-ratio: 3/4; background: var(--card-2);
+  display: block; position: relative; overflow: hidden;
+}
+.cover svg, .cover img { width: 100%; height: 100%; display: block; }
+.cover img { object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity .3s; }
+.cover img.loaded { opacity: 1; }
+
+.body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.body .title {
+  font-size: 13px; font-weight: 700; line-height: 1.3; color: var(--fg);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.body .meta {
+  font-size: 11px; color: var(--muted); line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.body .foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 6px;
+  margin-top: auto; padding-top: 8px;
+  font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.body .foot .added {
+  padding: 2px 7px; border-radius: 999px;
+  background: var(--c-tint, var(--accent-tint));
+  color: var(--c, var(--accent));
+  font-weight: 700; letter-spacing: 0.3px;
+}
+
+.empty { padding: 48px 20px; text-align: center; color: var(--muted); font-size: 15px; }
+.hint { font-size: 12px; color: var(--muted); padding-block: 8px 0; line-height: 1.5; }
+.hint b { color: var(--fg); font-weight: 700; }
+
+.theme-toggle {
+  background: var(--card); border: 1.5px solid var(--rule-strong); color: var(--fg);
+  width: 36px; height: 36px; border-radius: 999px; cursor: pointer; font-size: 15px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+.loader {
+  margin-top: 6px; padding: 10px 14px;
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: 12px; font-size: 12px; color: var(--muted);
+  display: flex; align-items: center; gap: 12px;
+}
+.loader .bar { flex: 1; height: 4px; background: var(--rule); border-radius: 999px; overflow: hidden; }
+.loader .bar div { height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+.loader b { color: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums; }
+</style>
+
+<div class="hdr">
+  <div class="brand">Golden International School · Primary &amp; Secondary Library</div>
+  <div class="hdr-row">
+    <h1>Shelving Guide</h1>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div class="counts" id="counts">
+        <div><b>235</b><br>books</div>
+        <div><b id="shownCount">235</b><br>showing</div>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+    </div>
+  </div>
+  <p>The 235 Primary &amp; Secondary books from the October 2026 acquisition (BOOKS@DK invoice PINV/204042, cat #99 - #333). The chip on the top-left is the catalogue number on your sticker; the code on the top-right is the call number. Title cards work offline; real cover photos load on top when you're online.</p>
+</div>
+
+<div class="filterbar">
+  <div class="search">
+    <input id="q" type="search" placeholder="Search title, author, call number or ISBN…" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="chips" id="chips"></div>
+</div>
+
+<div class="loader" id="loader" hidden>
+  <span id="loaderText">Trying to load real covers from the internet…</span>
+  <div class="bar"><div id="bar"></div></div>
+  <b id="loaderCount">0/0</b>
+</div>
+
+<div class="hint" id="hint"></div>
+
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty" hidden>No books match your filter.</div>
+
+<script>
+const BOOKS = [{"n":"99","isbn":"9780241743409","title":"A Little Book About Equity","author":"Ahn / DK","call":"FIC / AHN","cat":"FIC","section":"A Little Book About","age":"5+","added":"Oct 2026","dewey":""},{"n":"100","isbn":"9781474922753","title":"100 Things To Know About History","author":"Frith / Usborne","call":"900 / FRI","cat":"NF","section":"100 Things To Know","age":"Age 8+","added":"Oct 2026","dewey":"900"},{"n":"101","isbn":"9781474942997","title":"100 Things To Know About Numbers Computers And Coding","author":"Frith / Usborne","call":"005 / FRI","cat":"NF","section":"100 Things To Know","age":"Age 8+","added":"Oct 2026","dewey":"005"},{"n":"102","isbn":"9781409582182","title":"100 Things To Know About Science","author":"Frith / Usborne","call":"500 / FRI","cat":"NF","section":"100 Things To Know","age":"Age 8+","added":"Oct 2026","dewey":"500"},{"n":"103","isbn":"9781409593928","title":"100 Things To Know About Space","author":"Frith / Usborne","call":"520 / FRI","cat":"NF","section":"100 Things To Know","age":"Age 8+","added":"Oct 2026","dewey":"520"},{"n":"104","isbn":"9781472963420","title":"Knights V Dinosaurs","author":"Butchart / Bloomsbury","call":"FIC / BUT","cat":"FIC","section":"Bloomsbury Young Readers Purple","age":"Age 5-7","added":"Oct 2026","dewey":""},{"n":"105","isbn":"9780241725870","title":"Children's Visual Dictionary","author":"DK / DK","call":"REF / DK","cat":"REF","section":"","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"106","isbn":"9780008524036","title":"English School Dict.: Gift Edition","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"","age":"Age 9+","added":"Oct 2026","dewey":""},{"n":"107","isbn":"9780008397999","title":"Alice Stops","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"108","isbn":"9780008397906","title":"Big Head!","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"109","isbn":"9780008397937","title":"Dan Cooks An Egg","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"110","isbn":"9780008397913","title":"I Say Hello","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"111","isbn":"9780008397982","title":"In A Box","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"112","isbn":"9780008397890","title":"No Toys!","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"113","isbn":"9780008397975","title":"Pat Loves Cats!","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"114","isbn":"9780008397920","title":"Thank You!","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 1","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"115","isbn":"9780008398019","title":"Go, Go, Pogo!","author":"Rollason / Collins","call":"FIC / ROL","cat":"FIC","section":"Collins Peapod Readers 2","age":"Age 4-7","added":"Oct 2026","dewey":""},{"n":"116","isbn":"9780241331408","title":"LEGO Women Of NASA Space Heroes","author":"Kaiser / DK","call":"FIC / KAI","cat":"FIC","section":"DK Readers 1","age":"Age 5+","added":"Oct 2026","dewey":""},{"n":"117","isbn":"9780241500859","title":"Marvel Spider-Man Miles Morales To The Rescue!","author":"Saunders / DK","call":"FIC / SAU","cat":"FIC","section":"DK Readers 1","age":"Age 5+","added":"Oct 2026","dewey":""},{"n":"118","isbn":"9781405338608","title":"Star Wars Luke Skywalker's Amazing Story","author":"Beecroft / DK","call":"FIC / BEE","cat":"FIC","section":"DK Readers 1","age":"Age 5-7","added":"Oct 2026","dewey":""},{"n":"119","isbn":"9780241301272","title":"Star Wars What Is A Droid?","author":"Saunders / DK","call":"FIC / SAU","cat":"FIC","section":"DK Readers 1","age":"Age 5+","added":"Oct 2026","dewey":""},{"n":"120","isbn":"9780241225073","title":"Amazing Bees","author":"Unstead / DK","call":"FIC / UNS","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"121","isbn":"9780241285053","title":"Festivals And Celebrations","author":"Lock / DK","call":"FIC / LOC","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"122","isbn":"9780241284742","title":"Football School","author":"Bellos / DK","call":"FIC / BEL","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"123","isbn":"9780241315965","title":"Great Explorers","author":"Lock / DK","call":"FIC / LOC","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"124","isbn":"9780241357750","title":"LEGO Star Wars The Rise Of Skywalker","author":"DK / DK","call":"FIC / DK","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"125","isbn":"9780241379295","title":"Llamas","author":"De la Bedoyere / DK","call":"FIC / DEL","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"126","isbn":"9780241305843","title":"Pirate Attack!","author":"Lock / DK","call":"FIC / LOC","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"127","isbn":"9780241379264","title":"Sloths","author":"Barr / DK","call":"FIC / BAR","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"128","isbn":"9780241358528","title":"The Lion's Tale","author":"Lock / DK","call":"FIC / LOC","cat":"FIC","section":"DK Readers 2","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"129","isbn":"9780241343081","title":"Mythical Beasts","author":"DK / DK","call":"FIC / DK","cat":"FIC","section":"DK Readers 3","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"130","isbn":"9780241315903","title":"The Story Of Civil Rights","author":"DK / DK","call":"FIC / DK","cat":"FIC","section":"DK Readers 3","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"131","isbn":"9780241315958","title":"Women In Science","author":"DK / DK","call":"FIC / DK","cat":"FIC","section":"DK Readers 3","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"132","isbn":"9780241225059","title":"Spiders And Other Deadly Animals","author":"Woodward / DK","call":"FIC / WOO","cat":"FIC","section":"DK Readers 4","age":"Age 8+","added":"Oct 2026","dewey":""},{"n":"133","isbn":"9780241543788","title":"English For Everyone Illustrated English Dictionary","author":"DK / DK","call":"REF / DK","cat":"REF","section":"English For Everyone","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"134","isbn":"9780241525661","title":"English For Everyone Junior English Dictionary","author":"DK / DK","call":"REF / DK","cat":"REF","section":"English For Everyone","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"135","isbn":"9781409532590","title":"Illustrated Classics For Children","author":"Sims / Usborne","call":"FIC / SIM","cat":"FIC","section":"Illustrated Stories","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"136","isbn":"9780746098547","title":"Illus. Grimm's Fairy Tales","author":"Grimm / Usborne","call":"FIC / GRI","cat":"FIC","section":"Illustrated Stories","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"137","isbn":"9781409596738","title":"Illustrated Myths From Around The World","author":"Sims / Usborne","call":"FIC / SIM","cat":"FIC","section":"Illustrated Stories","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"138","isbn":"9781409550723","title":"Illus. Norse Myths","author":"Frith / Usborne","call":"FIC / FRI","cat":"FIC","section":"Illustrated Stories","age":"Age 6+","added":"Oct 2026","dewey":""},{"n":"139","isbn":"9781409516491","title":"Illustrated Stories From Around The World","author":"Sims / Usborne","call":"FIC / SIM","cat":"FIC","section":"Illustrated Stories","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"140","isbn":"9781409508670","title":"Illustrated Stories From Dickens","author":"Dickens / Usborne","call":"FIC / DIC","cat":"FIC","section":"Illustrated Stories","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"141","isbn":"9781409522232","title":"Illustrated Stories From Shakespeare","author":"Shakespeare / Usborne","call":"FIC / SHA","cat":"FIC","section":"Illustrated Stories","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"142","isbn":"9781409531678","title":"Illustrated Stories From The Greek Myths","author":"Sims / Usborne","call":"FIC / SIM","cat":"FIC","section":"Illustrated Stories","age":"Age 7+","added":"Oct 2026","dewey":""},{"n":"143","isbn":"9780241336106","title":"Ladybird Dictionary","author":"Ladybird / Ladybird","call":"REF / LAD","cat":"REF","section":"","age":"Age 5+","added":"Oct 2026","dewey":""},{"n":"144","isbn":"9780241254097","title":"Anansi Helps A Friend","author":"Ladybird / Ladybird","call":"FIC / LAD","cat":"FIC","section":"Ladybird Readers 1","age":"Age 4-6","added":"Oct 2026","dewey":""},{"n":"145","isbn":"9780241357927","title":"BBC Earth: Animal Colors","author":"Ladybird / Ladybird","call":"FIC / LAD","cat":"FIC","section":"Ladybird Readers 1","age":"Age 4-6","added":"Oct 2026","dewey":""},{"n":"146","isbn":"9780241316085","title":"BBC Earth: Deserts","author":"Ladybird / Ladybird","call":"FIC / LAD","cat":"FIC","section":"Ladybird Readers 1","age":"Age 4-6","added":"Oct 2026","dewey":""},{"n":"147","isbn":"9780241283547","title":"Cars","author":"Ladybird / Ladybird","call":"FIC / LAD","cat":"FIC","section":"Ladybird Readers 1","age":"Age 4-6","added":"Oct 2026","dewey":""},{"n":"148","isbn":"9780241254073","title":"Cinderella","author":"Ladybird / Ladybird","call":"FIC / LAD","cat":"FIC","section":"Ladybird Readers 1","age":"Age 4-6","added":"Oct 2026","dewey":""},{"n":"149","isbn":"9780241283516","title":"Ladybird 1: Fairy Friends","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"150","isbn":"9780241533734","title":"Ladybird 1: Pablo - Goodnight Pablo (with Code)","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"151","isbn":"9780241254110","title":"Ladybird 1: Jon's Football Team","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"152","isbn":"9780241365281","title":"Ladybird 1: Moomin - The Birthday Button","author":"Jansson / Ladybird (Penguin Random House)","call":"RDR / JAN","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"153","isbn":"9780241254134","title":"Ladybird 1: On the Farm","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"154","isbn":"9780241533741","title":"Ladybird 1: Pablo - Pablo Chooses His Shoes (with Code)","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"155","isbn":"9780241262191","title":"Ladybird 1: Peppa Pig - Fun with Old Things","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"156","isbn":"9780241262207","title":"Ladybird 1: Peppa Pig - In the Garden","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"157","isbn":"9780241297445","title":"Ladybird 1: Peppa Pig - On a Boat","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"158","isbn":"9780241365441","title":"Ladybird 1: Peppa Pig - Going to the Moon","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"159","isbn":"9780241297421","title":"Ladybird 1: Peter Rabbit and the Radish Robber","author":"Potter / Ladybird (Penguin Random House)","call":"RDR / POT","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"160","isbn":"9780241254158","title":"Ladybird 1: Peter Rabbit Goes to the Island","author":"Potter / Ladybird (Penguin Random House)","call":"RDR / POT","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"161","isbn":"9780241357941","title":"Ladybird 1: Pom Pom is Grumpy","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"162","isbn":"9780241297414","title":"Ladybird 1: Rex the Big Dinosaur","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"163","isbn":"9780241368206","title":"Ladybird 1: Roald Dahl - The Twits (with Code)","author":"Dahl / Ladybird (Penguin Random House)","call":"FIC / DAH","cat":"FIC","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"164","isbn":"9780241475584","title":"Ladybird 1: The Ant and the Grasshopper (with Code)","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"165","isbn":"9780241401705","title":"Ladybird 1: The Empty Pot (with Code)","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"166","isbn":"9780241254080","title":"Ladybird 1: The Enormous Turnip","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"167","isbn":"9780241254066","title":"Ladybird 1: The Magic Porridge Pot","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"168","isbn":"9780241316146","title":"Ladybird 1: The Tale of Peter Rabbit","author":"Potter / Ladybird (Penguin Random House)","call":"RDR / POT","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"169","isbn":"9780241401736","title":"Ladybird 1: The Tortoise and the Hare (with Code)","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"170","isbn":"9780241297438","title":"Ladybird 1: Topsy and Tim - Go to London","author":"Adamson / Ladybird (Penguin Random House)","call":"RDR / ADA","cat":"RDR","section":"Ladybird Readers","age":"4-5","added":"Oct 2026","dewey":""},{"n":"171","isbn":"9780241358184","title":"Ladybird 2: BBC Earth - Big and Small","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"172","isbn":"9780241298442","title":"Ladybird 2: BBC Earth - Hungry Animals","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"173","isbn":"9780241254479","title":"Ladybird 2: Dinosaurs","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"174","isbn":"9780241298084","title":"Ladybird 2: Great Trains","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"175","isbn":"9780241365298","title":"Ladybird 2: Moomin - The Wish","author":"Jansson / Ladybird (Penguin Random House)","call":"RDR / JAN","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"176","isbn":"9780241283714","title":"Ladybird 2: Peppa Pig - Daddy Pig's New Van","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"177","isbn":"9780241298145","title":"Ladybird 2: Peppa Pig - Daddy Pig's Office","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"178","isbn":"9780241283691","title":"Ladybird 2: Peter Rabbit and the Angry Owl","author":"Potter / Ladybird (Penguin Random House)","call":"RDR / POT","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"179","isbn":"9780241254493","title":"Ladybird 2: Peter Rabbit Goes to the Treehouse","author":"Potter / Ladybird (Penguin Random House)","call":"RDR / POT","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"180","isbn":"9780241298114","title":"Ladybird 2: Peter Rabbit - The Peter Rabbit Club (with Code)","author":"Potter / Ladybird (Penguin Random House)","call":"RDR / POT","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"181","isbn":"9780241368091","title":"Ladybird 2: Roald Dahl - James and the Giant Peach (with Code)","author":"Dahl / Ladybird (Penguin Random House)","call":"FIC / DAH","cat":"FIC","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"182","isbn":"9780241254431","title":"Ladybird 2: Sly Fox and Red Hen","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"183","isbn":"9780241254424","title":"Ladybird 2: The Gingerbread Man","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"184","isbn":"9780241358221","title":"Ladybird 2: The Magic Paintbrush","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"185","isbn":"9780241254448","title":"Ladybird 2: The Monster Next Door","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"186","isbn":"9780241254455","title":"Ladybird 2: Wild Animals","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"5-6","added":"Oct 2026","dewey":""},{"n":"187","isbn":"9780241298688","title":"Ladybird 3: BBC Earth - Where Animals Live","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"6-7","added":"Oct 2026","dewey":""},{"n":"188","isbn":"9780241253816","title":"Ladybird 4: Space","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"7-8","added":"Oct 2026","dewey":""},{"n":"189","isbn":"9780241533642","title":"Ladybird 4: Tales from India - The Story of Laila and Ajeet (with Code)","author":"Ladybird / Ladybird (Penguin Random House)","call":"RDR / LAD","cat":"RDR","section":"Ladybird Readers","age":"7-8","added":"Oct 2026","dewey":""},{"n":"190","isbn":"9781409591511","title":"LTF Computers & Coding","author":"Dickins / Usborne Publishing","call":"005 / DIC","cat":"NF","section":"Lift-the-Flap","age":"7+","added":"Oct 2026","dewey":"005"},{"n":"191","isbn":"9780241610817","title":"Penguin 1: Roald Dahl - Billy and the Minpins (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"8+","added":"Oct 2026","dewey":""},{"n":"192","isbn":"9780241610909","title":"Penguin 1: Roald Dahl - Esio Trot (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"8+","added":"Oct 2026","dewey":""},{"n":"193","isbn":"9780241611050","title":"Penguin 1: Roald Dahl - The Enormous Crocodile (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"8+","added":"Oct 2026","dewey":""},{"n":"194","isbn":"9780241611074","title":"Penguin 1: Roald Dahl - The Giraffe and the Pelly and Me (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"8+","added":"Oct 2026","dewey":""},{"n":"195","isbn":"9780241588864","title":"Penguin 2: Alice's Adventures in Wonderland (with Code)","author":"Carroll / Penguin Random House","call":"RDR / CAR","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"196","isbn":"9780241493113","title":"Penguin 2: Anne Frank (with Code)","author":"Frank / Penguin Random House","call":"RDR / FRA","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"197","isbn":"9780241493083","title":"Penguin 2: Anne of Green Gables (with Code)","author":"Montgomery / Penguin Random House","call":"RDR / MON","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"198","isbn":"9780241553404","title":"Penguin 2: Mahatma Gandhi (with Code)","author":"Ladybird / Penguin Random House","call":"RDR / LAD","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"199","isbn":"9780241447376","title":"Penguin 2: Malala Yousafzai (with Code)","author":"Ladybird / Penguin Random House","call":"RDR / LAD","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"200","isbn":"9780241543771","title":"Penguin 2: Mulan and Other Tales of Heroes (with Code)","author":"Ladybird / Penguin Random House","call":"RDR / LAD","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"201","isbn":"9780241588888","title":"Penguin 2: Nelson Mandela (with Code)","author":"Ladybird / Penguin Random House","call":"RDR / LAD","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"202","isbn":"9780241397688","title":"Penguin 2: Roald Dahl - Boy (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"203","isbn":"9780241610923","title":"Penguin 2: Roald Dahl - Fantastic Mr Fox (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"204","isbn":"9780241611005","title":"Penguin 2: Roald Dahl - Revolting Rhymes (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"205","isbn":"9780241611104","title":"Penguin 2: Roald Dahl - The Magic Finger (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"206","isbn":"9780241611128","title":"Penguin 2: Roald Dahl - The Twits (with Code)","author":"Dahl / Penguin Random House","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"207","isbn":"9780241520673","title":"Penguin 2: Rosa Parks (with Code)","author":"Ladybird / Penguin Random House","call":"RDR / LAD","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"208","isbn":"9780241493137","title":"Penguin 2: Sundiata the Lion King and Other Royal Tales (with Code)","author":"Ladybird / Penguin Random House","call":"RDR / LAD","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"209","isbn":"9780241463291","title":"Penguin 2: The Adventures of Huckleberry Finn (with Code)","author":"Twain / Penguin Random House","call":"RDR / TWA","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"210","isbn":"9780241430880","title":"Penguin 2: The Adventures of Tom Sawyer (with Code)","author":"Twain / Penguin Random House","call":"RDR / TWA","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"211","isbn":"9780241375259","title":"Penguin 2: The Call of the Wild (with Code)","author":"London / Penguin Random House","call":"RDR / LON","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"212","isbn":"9780241463277","title":"Penguin 2: The Little Prince (with Code)","author":"Saint-Exupery / Penguin Random House","call":"RDR / SAI","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"213","isbn":"9780241542538","title":"Penguin 2: The Puffin Keeper (with Code)","author":"Morpurgo / Penguin Random House","call":"RDR / MOR","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"214","isbn":"9780241553329","title":"Penguin 2: The Story of Tracy Beaker (with Code)","author":"Wilson / Penguin Random House","call":"RDR / WIL","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"215","isbn":"9780241700679","title":"Penguin 2: The Wizard of Oz (with Code)","author":"Baum / Penguin Random House","call":"RDR / BAU","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"216","isbn":"9780241542545","title":"Penguin 2: Wild Cities (with Code)","author":"Ladybird / Penguin Random House","call":"RDR / LAD","cat":"RDR","section":"Penguin Readers","age":"9+","added":"Oct 2026","dewey":""},{"n":"217","isbn":"9780241677254","title":"Charlie and the Chocolate Factory (Roald Dahl Classic Collection)","author":"Dahl / Puffin (Penguin Random House)","call":"FIC / DAH","cat":"FIC","section":"Roald Dahl Classic Collection","age":"7-11","added":"Oct 2026","dewey":""},{"n":"218","isbn":"9781474925013","title":"Graphic Classic: Dracula","author":"Stoker / Usborne Publishing","call":"GN / STO","cat":"GN","section":"Usborne Graphic Classics","age":"8+","added":"Oct 2026","dewey":""},{"n":"219","isbn":"9781474974073","title":"Graphic Legends: The Adventures of King Arthur","author":"Punter / Usborne Publishing","call":"GN / PUN","cat":"GN","section":"Usborne Graphic Legends","age":"8+","added":"Oct 2026","dewey":""},{"n":"220","isbn":"9781474974493","title":"Graphic Novel: The Adventures of Robin Hood","author":"Punter / Usborne Publishing","call":"GN / PUN","cat":"GN","section":"Usborne Graphic Novels","age":"8+","added":"Oct 2026","dewey":""},{"n":"221","isbn":"9781474952200","title":"Graphic Novel: The Adventures of Thor","author":"Punter / Usborne Publishing","call":"GN / PUN","cat":"GN","section":"Usborne Graphic Novels","age":"7+","added":"Oct 2026","dewey":""},{"n":"222","isbn":"9781409565734","title":"Junior Illus. Science Dict.","author":"Khan / Usborne Publishing","call":"REF / KHA","cat":"REF","section":"Usborne Junior Illustrated Dictionaries","age":"7+","added":"Oct 2026","dewey":""},{"n":"223","isbn":"9781474958028","title":"Usborne Readers 2: Alice in Wonderland","author":"Carroll / Usborne Publishing","call":"FIC / CAR","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"224","isbn":"9781474924665","title":"Usborne Readers 2: Arthur and the Sword in the Stone","author":"Punter / Usborne Publishing","call":"FIC / PUN","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"225","isbn":"9781474939966","title":"Usborne Readers 2: Gulliver's Travels","author":"Swift / Usborne Publishing","call":"FIC / SWI","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"226","isbn":"9781474947930","title":"Usborne Readers 2: Jason and the Argonauts","author":"Punter / Usborne Publishing","call":"FIC / PUN","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"227","isbn":"9781474924641","title":"Usborne Readers 2: Pinocchio","author":"Collodi / Usborne Publishing","call":"FIC / COL","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"228","isbn":"9781474991162","title":"Usborne Readers 2: The Firebird","author":"Mackinnon / Usborne Publishing","call":"FIC / MAC","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"229","isbn":"9781474939942","title":"Usborne Readers 2: The Little Mermaid","author":"Andersen / Usborne Publishing","call":"FIC / AND","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"230","isbn":"9781474947893","title":"Usborne Readers 2: The Phantom of the Opera","author":"Leroux / Usborne Publishing","call":"FIC / LER","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"231","isbn":"9781474928892","title":"Usborne Readers 2: The Snow Queen","author":"Andersen / Usborne Publishing","call":"FIC / AND","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"232","isbn":"9781474958011","title":"Usborne Readers 2: The Wind in the Willows","author":"Grahame / Usborne Publishing","call":"FIC / GRA","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"233","isbn":"9781474924658","title":"Usborne Readers 2: The Wooden Horse","author":"Punter / Usborne Publishing","call":"FIC / PUN","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"234","isbn":"9781803706795","title":"Usborne Readers 2: Theseus and the Minotaur","author":"Punter / Usborne Publishing","call":"FIC / PUN","cat":"FIC","section":"Usborne English Readers","age":"6+","added":"Oct 2026","dewey":""},{"n":"235","isbn":"9781474927840","title":"Usborne Readers 3: A Midsummer Night's Dream","author":"Shakespeare / Usborne Publishing","call":"FIC / SHA","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"236","isbn":"9781474991179","title":"Usborne Readers 3: Dr. Jekyll and Mr. Hyde","author":"Stevenson / Usborne Publishing","call":"FIC / STE","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"237","isbn":"9781474958042","title":"Usborne Readers 3: Dracula","author":"Stoker / Usborne Publishing","call":"FIC / STO","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"238","isbn":"9781474927857","title":"Usborne Readers 3: Frankenstein","author":"Shelley / Usborne Publishing","call":"FIC / SHE","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"239","isbn":"9781474958059","title":"Usborne Readers 3: Great Expectations","author":"Dickens / Usborne Publishing","call":"FIC / DIC","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"240","isbn":"9781474947909","title":"Usborne Readers 3: Jane Eyre","author":"Bronte / Usborne Publishing","call":"FIC / BRO","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"241","isbn":"9781474947947","title":"Usborne Readers 3: Macbeth","author":"Shakespeare / Usborne Publishing","call":"FIC / SHA","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"242","isbn":"9781474924689","title":"Usborne Readers 3: Oliver Twist","author":"Dickens / Usborne Publishing","call":"FIC / DIC","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"243","isbn":"9781474942430","title":"Usborne Readers 3: Romeo and Juliet","author":"Shakespeare / Usborne Publishing","call":"FIC / SHA","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"244","isbn":"9781474939959","title":"Usborne Readers 3: The Hound of the Baskervilles","author":"Doyle / Usborne Publishing","call":"FIC / DOY","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"245","isbn":"9781474925495","title":"Usborne Readers 3: The Jungle Book","author":"Kipling / Usborne Publishing","call":"FIC / KIP","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"246","isbn":"9781474926805","title":"Usborne Readers 3: The Wizard of Oz","author":"Baum / Usborne Publishing","call":"FIC / BAU","cat":"FIC","section":"Usborne English Readers","age":"7+","added":"Oct 2026","dewey":""},{"n":"247","isbn":"9780241301975","title":"The Classical Music Book: Big Ideas Simply Explained","author":"DK / DK","call":"780 / DK","cat":"NF","section":"Big Ideas Simply Explained","age":"14+","added":"Oct 2026","dewey":"780"},{"n":"248","isbn":"9781407181967","title":"Classic Goosebumps Series (10 Books Collection)","author":"Stine / Scholastic","call":"FIC / STI","cat":"FIC","section":"Classic Goosebumps","age":"8-12","added":"Oct 2026","dewey":""},{"n":"249","isbn":"9780008135799","title":"Collins Cobuild Basic American Dict. (2nd Edition)","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Cobuild","age":"11+","added":"Oct 2026","dewey":""},{"n":"250","isbn":"9780007556533","title":"Collins Cobuild Essential Dict.","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Cobuild","age":"11-14","added":"Oct 2026","dewey":""},{"n":"251","isbn":"9780008444907","title":"Cobuild Advanced Learner's Dict. (10th Edition)","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Cobuild","age":"14+","added":"Oct 2026","dewey":""},{"n":"252","isbn":"9780008607777","title":"Cobuild Primary Learner's Dict. (4th Edition)","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Cobuild","age":"7-11","added":"Oct 2026","dewey":""},{"n":"253","isbn":"9780007545018","title":"Amazing Entrepreneurs and Business People: Collins English Readers Level 1","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"10+","added":"Oct 2026","dewey":""},{"n":"254","isbn":"9780007544943","title":"Amazing Inventors: Collins English Readers Level 1","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"10+","added":"Oct 2026","dewey":""},{"n":"255","isbn":"9780007544929","title":"Amazing Leaders: Collins English Readers Level 1","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"10+","added":"Oct 2026","dewey":""},{"n":"256","isbn":"9780007545087","title":"Amazing Performers: Collins English Readers Level 1","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"10+","added":"Oct 2026","dewey":""},{"n":"257","isbn":"9780007544936","title":"Amazing Women: Collins English Readers Level 1","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"10+","added":"Oct 2026","dewey":""},{"n":"258","isbn":"9780007544967","title":"Amazing Architects and Artists: Collins English Readers Level 2","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"259","isbn":"9780007544950","title":"Amazing Aviators: Collins English Readers Level 2","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"260","isbn":"9780007545025","title":"Amazing Composers: Collins English Readers Level 2","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"261","isbn":"9780007545032","title":"Amazing Mathematicians: Collins English Readers Level 2","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"262","isbn":"9780007545094","title":"Amazing Medical People: Collins English Readers Level 2","author":"MacKenzie / Collins","call":"RDR / MAC","cat":"RDR","section":"Collins English Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"263","isbn":"9780008270674","title":"Thai Dictionary (Essential Edition)","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Essential Dictionaries","age":"11+","added":"Oct 2026","dewey":""},{"n":"264","isbn":"9780008270667","title":"Collins Vietnamese Dictionary (Essential Edition)","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Essential Dictionaries","age":"11+","added":"Oct 2026","dewey":""},{"n":"265","isbn":"9780008372279","title":"English Visual Dictionary","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Visual Dictionary","age":"11+","added":"Oct 2026","dewey":""},{"n":"266","isbn":"9780241446324","title":"How Space Works","author":"DK / DK","call":"520 / DK","cat":"NF","section":"How Things Work","age":"12+","added":"Oct 2026","dewey":"520"},{"n":"267","isbn":"9780008290375","title":"Japanese Visual Dictionary","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Visual Dictionary","age":"11+","added":"Oct 2026","dewey":""},{"n":"268","isbn":"9780008399634","title":"Korean Visual Dictionary","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Visual Dictionary","age":"11+","added":"Oct 2026","dewey":""},{"n":"269","isbn":"9780008290368","title":"Mandarin Visual Dictionary","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Visual Dictionary","age":"11+","added":"Oct 2026","dewey":""},{"n":"270","isbn":"9780241520703","title":"Penguin 3: Ghost Stories (ELT Graded Reader)","author":"James / Penguin Books","call":"RDR / JAM","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"271","isbn":"9780241610862","title":"Penguin 3: Roald Dahl's Charlie and the Chocolate Factory","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"272","isbn":"9780241610947","title":"Penguin 3: Roald Dahl's George's Marvellous Medicine","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"273","isbn":"9780241610961","title":"Penguin 3: Roald Dahl's James and the Giant Peach","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"274","isbn":"9780241611029","title":"Penguin 3: Roald Dahl's The BFG","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"275","isbn":"9780241588987","title":"Penguin 3: Sherlock Holmes Short Stories","author":"Doyle / Penguin Books","call":"RDR / DOY","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"276","isbn":"9780241447413","title":"Penguin 3: The Extraordinary Life of Stephen Hawking","author":"Hawking / Penguin Books","call":"RDR / HAW","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"277","isbn":"9780241700464","title":"Penguin 3: Tales of Ancient Egypt","author":"Green / Penguin Books","call":"RDR / GRE","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"278","isbn":"9780241375266","title":"Penguin 3: The Great Gatsby","author":"Fitzgerald / Penguin Books","call":"RDR / FIT","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"279","isbn":"9780241463307","title":"Penguin 3: The Picture of Dorian Gray","author":"Wilde / Penguin Books","call":"RDR / WIL","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"280","isbn":"9780241397893","title":"Penguin 3: Wonder","author":"Palacio / Penguin Books","call":"RDR / PAL","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"281","isbn":"9780241430910","title":"Penguin 3: Zoo","author":"Patterson / Penguin Books","call":"RDR / PAT","cat":"RDR","section":"Penguin Readers","age":"11+","added":"Oct 2026","dewey":""},{"n":"282","isbn":"9780241463284","title":"Penguin 4: Artemis Fowl","author":"Colfer / Penguin Books","call":"RDR / COL","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"283","isbn":"9780241700570","title":"Penguin 4: Clouds Over California","author":"Parsons / Penguin Books","call":"RDR / PAR","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"284","isbn":"9780241463314","title":"Penguin 4: Emma","author":"Austen / Penguin Books","call":"RDR / AUS","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"285","isbn":"9780241520727","title":"Penguin 4: How High the Moon","author":"Parsons / Penguin Books","call":"RDR / PAR","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"286","isbn":"9780241700419","title":"Penguin 4: I Capture the Castle","author":"Smith / Penguin Books","call":"RDR / SMI","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"287","isbn":"9780241430934","title":"Penguin 4: Jane Eyre","author":"Bronte / Penguin Books","call":"RDR / BRO","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"288","isbn":"9780241636848","title":"Penguin 4: Les Miserables","author":"Hugo / Penguin Books","call":"RDR / HUG","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"289","isbn":"9780241553343","title":"Penguin 4: Lion","author":"Brierley / Penguin Books","call":"RDR / BRI","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"290","isbn":"9780241542569","title":"Penguin 4: Pig-Heart Boy","author":"Blackman / Penguin Books","call":"RDR / BLA","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"291","isbn":"9780241375273","title":"Penguin 4: Pride and Prejudice","author":"Austen / Penguin Books","call":"RDR / AUS","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"292","isbn":"9780241610886","title":"Penguin 4: Roald Dahl's Danny the Champion of the World","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"293","isbn":"9780241430927","title":"Penguin 4: Roald Dahl's Going Solo","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"294","isbn":"9780241610985","title":"Penguin 4: Roald Dahl's Matilda","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"295","isbn":"9780241611142","title":"Penguin 4: Roald Dahl's The Witches","author":"Dahl / Penguin Books","call":"FIC / DAH","cat":"FIC","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"296","isbn":"9780241700426","title":"Penguin 4: The Adventures of Sherlock Holmes","author":"Doyle / Penguin Books","call":"RDR / DOY","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"297","isbn":"9780241447420","title":"Penguin 4: The Boy in the Striped Pyjamas","author":"Boyne / Penguin Books","call":"RDR / BOY","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"298","isbn":"9780241493151","title":"Penguin 4: The Invisible Man","author":"Wells / Penguin Books","call":"RDR / WEL","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"299","isbn":"9780241375280","title":"Penguin 4: Women Who Changed the World","author":"Bladon / Penguin Books","call":"RDR / BLA","cat":"RDR","section":"Penguin Readers","age":"12+","added":"Oct 2026","dewey":""},{"n":"300","isbn":"9780241636862","title":"Penguin 5: (Un)arranged Marriage","author":"Rai / Penguin Books","call":"RDR / RAI","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"301","isbn":"9780241700549","title":"Penguin 5: Ashes in the Snow","author":"Sepetys / Penguin Books","call":"RDR / SEP","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"302","isbn":"9780241553381","title":"Penguin 5: Boys Don't Cry","author":"Blackman / Penguin Books","call":"RDR / BLA","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"303","isbn":"9780241493175","title":"Penguin 5: David Copperfield","author":"Dickens / Penguin Books","call":"RDR / DIC","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"304","isbn":"9780241397886","title":"Penguin 5: Doctor Who: Borrowed Time","author":"Alderman / Penguin Books","call":"RDR / ALD","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"305","isbn":"9780241397947","title":"Penguin 5: Extremely Loud and Incredibly Close","author":"Foer / Penguin Books","call":"RDR / FOE","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"306","isbn":"9780241430941","title":"Penguin 5: Frankenstein","author":"Shelley / Penguin Books","call":"RDR / SHE","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"307","isbn":"9780241520741","title":"Penguin 5: How to Give Up Plastic","author":"McCallum / Penguin Books","call":"RDR / MCC","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"308","isbn":"9780241493182","title":"Penguin 5: Simon vs. the Homo Sapiens Agenda","author":"Albertalli / Penguin Books","call":"RDR / ALB","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"309","isbn":"9780241636886","title":"Penguin 5: The Unlikely Pilgrimage of Harold Fry","author":"Joyce / Penguin Books","call":"RDR / JOY","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"310","isbn":"9780241375297","title":"Penguin 5: Wuthering Heights","author":"Bronte / Penguin Books","call":"RDR / BRO","cat":"RDR","section":"Penguin Readers","age":"13+","added":"Oct 2026","dewey":""},{"n":"311","isbn":"9780241589182","title":"Penguin 6: A Tale of Two Cities","author":"Dickens / Penguin Books","call":"RDR / DIC","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"312","isbn":"9780241397909","title":"Penguin 6: Darkest Hour","author":"McCarten / Penguin Books","call":"RDR / MCC","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"313","isbn":"9780241463338","title":"Penguin 6: Great Expectations","author":"Dickens / Penguin Books","call":"RDR / DIC","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"314","isbn":"9780241430958","title":"Penguin 6: Oliver Twist","author":"Dickens / Penguin Books","call":"RDR / DIC","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"315","isbn":"9780241520772","title":"Penguin 6: One of Us Is Lying","author":"McManus / Penguin Books","call":"RDR / MCM","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"316","isbn":"9780241493205","title":"Penguin 6: Slumdog Millionaire","author":"Swarup / Penguin Books","call":"RDR / SWA","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"317","isbn":"9780241493229","title":"Penguin 6: The Turn of the Screw","author":"James / Penguin Books","call":"RDR / JAM","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"318","isbn":"9780241493168","title":"Penguin 6: Viruses and Pandemics","author":"Wright / Penguin Books","call":"RDR / WRI","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"319","isbn":"9780241463345","title":"Penguin 6: White Fang","author":"London / Penguin Books","call":"RDR / LON","cat":"RDR","section":"Penguin Readers","age":"14+","added":"Oct 2026","dewey":""},{"n":"320","isbn":"9780008399696","title":"Thai Visual Dictionary","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Visual Dictionary","age":"11+","added":"Oct 2026","dewey":""},{"n":"321","isbn":"9780008469597","title":"Atlas of Unusual Languages","author":"Hammond / Collins","call":"REF / HAM","cat":"REF","section":"","age":"14+","added":"Oct 2026","dewey":""},{"n":"322","isbn":"9781407132082","title":"The Hunger Games","author":"Collins / Scholastic","call":"FIC / COL","cat":"FIC","section":"The Hunger Games","age":"12+","added":"Oct 2026","dewey":""},{"n":"323","isbn":"9781407132099","title":"Hunger Games: Catching Fire","author":"Collins / Scholastic","call":"FIC / COL","cat":"FIC","section":"The Hunger Games","age":"12+","added":"Oct 2026","dewey":""},{"n":"324","isbn":"9781407132105","title":"Hunger Games: Mockingjay","author":"Collins / Scholastic","call":"FIC / COL","cat":"FIC","section":"The Hunger Games","age":"12+","added":"Oct 2026","dewey":""},{"n":"325","isbn":"9781836040606","title":"Fake News and How to Spot It","author":"Frith / Usborne","call":"070 / FRI","cat":"NF","section":"Usborne","age":"11+","added":"Oct 2026","dewey":"070"},{"n":"326","isbn":"9781474998505","title":"Geography for Beginners","author":"Bryan / Usborne","call":"910 / BRY","cat":"NF","section":"Usborne For Beginners","age":"10+","added":"Oct 2026","dewey":"910"},{"n":"327","isbn":"9781474998857","title":"History for Beginners","author":"Frith / Usborne","call":"900 / FRI","cat":"NF","section":"Usborne For Beginners","age":"10+","added":"Oct 2026","dewey":"900"},{"n":"328","isbn":"9781409539117","title":"Illustrated Dict. of Chemistry","author":"Wertheim / Usborne","call":"REF / WER","cat":"REF","section":"Usborne Illustrated Dictionaries","age":"11+","added":"Oct 2026","dewey":""},{"n":"329","isbn":"9781409531647","title":"Illustrated Dict. of Physics","author":"Stockley / Usborne","call":"REF / STO","cat":"REF","section":"Usborne Illustrated Dictionaries","age":"11+","added":"Oct 2026","dewey":""},{"n":"330","isbn":"9781409539100","title":"Illustrated Dict. of Science","author":"Stockley / Usborne","call":"REF / STO","cat":"REF","section":"Usborne Illustrated Dictionaries","age":"11+","added":"Oct 2026","dewey":""},{"n":"331","isbn":"9781474998543","title":"Mathematics for Beginners","author":"Bryan / Usborne","call":"510 / BRY","cat":"NF","section":"Usborne For Beginners","age":"10+","added":"Oct 2026","dewey":"510"},{"n":"332","isbn":"9780008399665","title":"Vietnamese Visual Dictionary","author":"Collins / Collins","call":"REF / COL","cat":"REF","section":"Collins Visual Dictionary","age":"11+","added":"Oct 2026","dewey":""},{"n":"333","isbn":"9781409547082","title":"What's Science All About?","author":"Firth / Usborne","call":"500 / FIR","cat":"NF","section":"Usborne","age":"11+","added":"Oct 2026","dewey":"500"}];
+
+// Must mirror the physical spine-sticker colours for Primary.
+const CAT_INFO = {
+  FIC: { name: "Fiction",         color: "#3B82F6", tint: "#E4EEFE" },  // BLUE
+  GN:  { name: "Graphic Novel",   color: "#3B82F6", tint: "#E4EEFE" },  // BLUE
+  NF:  { name: "Non-Fiction",     color: "#F58E1E", tint: "#FFF0DF" },  // ORANGE
+  RDR: { name: "Graded Reader",   color: "#EC4FA1", tint: "#FFE4F2" },  // PINK
+  REF: { name: "Reference",       color: "#6B7280", tint: "#F0F0F0" },  // GRAY
+};
+
+// --- SVG faux-cover generator (works offline) --------------------------
+function escapeXml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+function wrapText(text, maxLineChars) {
+  const words = text.split(/\s+/);
+  const lines = [];
+  let cur = '';
+  for (const w of words) {
+    const probe = cur ? cur + ' ' + w : w;
+    if (probe.length > maxLineChars && cur) { lines.push(cur); cur = w; }
+    else { cur = probe; }
+    if (cur.length > maxLineChars + 4) { lines.push(cur.slice(0, maxLineChars)); cur = cur.slice(maxLineChars); }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+function fauxCover(b) {
+  const info = CAT_INFO[b.cat] || { color: '#2563A8', tint: '#E4EEFE' };
+  const W = 240, H = 320;
+  const title = b.title || '';
+  let fontSize, maxLine;
+  const len = title.length;
+  if (len <= 14)      { fontSize = 28; maxLine = 11; }
+  else if (len <= 30) { fontSize = 22; maxLine = 13; }
+  else if (len <= 60) { fontSize = 18; maxLine = 16; }
+  else                { fontSize = 14; maxLine = 20; }
+  const lines = wrapText(title, maxLine).slice(0, 6);
+  const lineH = fontSize * 1.15;
+  const totalH = lines.length * lineH;
+  const startY = (H * 0.52) - (totalH / 2) + fontSize;
+
+  const author = (b.author || '').split('/')[0].trim().slice(0, 40);
+  const motifs = {
+    FIC: `<rect x="18" y="18" width="40" height="10" rx="2" fill="${info.color}"/><rect x="18" y="30" width="40" height="10" rx="2" fill="${info.color}" opacity=".75"/><rect x="18" y="42" width="40" height="10" rx="2" fill="${info.color}" opacity=".5"/>`,
+    GN:  `<ellipse cx="38" cy="36" rx="24" ry="16" fill="${info.color}"/><polygon points="26,48 34,60 36,50" fill="${info.color}"/><circle cx="30" cy="34" r="2.5" fill="#fff"/><circle cx="38" cy="34" r="2.5" fill="#fff"/><circle cx="46" cy="34" r="2.5" fill="#fff"/>`,
+    NF:  `<circle cx="38" cy="40" r="22" fill="${info.color}"/><line x1="16" y1="40" x2="60" y2="40" stroke="#fff" stroke-width="2"/><line x1="38" y1="18" x2="38" y2="62" stroke="#fff" stroke-width="2"/><ellipse cx="38" cy="40" rx="10" ry="22" fill="none" stroke="#fff" stroke-width="2"/>`,
+    RDR: `<rect x="18" y="40" width="10" height="18" rx="2" fill="${info.color}" opacity=".55"/><rect x="30" y="30" width="10" height="28" rx="2" fill="${info.color}" opacity=".75"/><rect x="42" y="20" width="10" height="38" rx="2" fill="${info.color}"/>`,
+    REF: `<rect x="14" y="22" width="48" height="34" rx="3" fill="${info.color}"/><rect x="37" y="22" width="2" height="34" fill="#fff"/><rect x="20" y="30" width="14" height="2" fill="#fff"/><rect x="20" y="36" width="14" height="2" fill="#fff"/><rect x="20" y="42" width="14" height="2" fill="#fff"/><rect x="42" y="30" width="14" height="2" fill="#fff"/><rect x="42" y="36" width="14" height="2" fill="#fff"/><rect x="42" y="42" width="14" height="2" fill="#fff"/>`,
+  };
+  const motif = motifs[b.cat] || `<rect x="18" y="20" width="40" height="40" rx="4" fill="${info.color}"/>`;
+
+  let titleTspans = '';
+  for (let i = 0; i < lines.length; i++) {
+    titleTspans += `<tspan x="${W/2}" dy="${i === 0 ? 0 : lineH}">${escapeXml(lines[i])}</tspan>`;
+  }
+
+  const paper = `
+    <defs>
+      <pattern id="p${b.n}" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+        <rect width="4" height="4" fill="${info.tint}"/>
+        <circle cx="2" cy="2" r="0.4" fill="${info.color}" opacity=".2"/>
+      </pattern>
+    </defs>
+    <rect width="${W}" height="${H}" fill="url(#p${b.n})"/>
+  `;
+
+  // Dewey number badge for non-fiction
+  let deweyBadge = '';
+  if (b.dewey) {
+    deweyBadge = `<rect x="${W - 56}" y="18" width="44" height="22" rx="4" fill="${info.color}"/>
+      <text x="${W - 34}" y="34" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="12" fill="#fff">${escapeXml(b.dewey)}</text>`;
+  }
+
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    ${paper}
+    <rect y="0" width="${W}" height="6" fill="${info.color}"/>
+    ${motif}
+    ${deweyBadge}
+    <text x="${W/2}" y="${startY}" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="900" font-size="${fontSize}" fill="#1A1A1A">${titleTspans}</text>
+    <text x="${W/2}" y="${H - 18}" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="12" fill="${info.color}" opacity=".9">${escapeXml(author)}</text>
+    <rect y="${H - 6}" width="${W}" height="6" fill="${info.color}"/>
+  </svg>`;
+}
+
+// --- state & rendering ---------------------------------------------------
+const q = document.getElementById('q');
+const grid = document.getElementById('grid');
+const empty = document.getElementById('empty');
+const chipsEl = document.getElementById('chips');
+const shownCount = document.getElementById('shownCount');
+const hint = document.getElementById('hint');
+const loader = document.getElementById('loader');
+const loaderText = document.getElementById('loaderText');
+const loaderCount = document.getElementById('loaderCount');
+const bar = document.getElementById('bar');
+
+let state = { cat: 'ALL', q: '' };
+
+const cats = {};
+for (const b of BOOKS) cats[b.cat] = (cats[b.cat] || 0) + 1;
+const chipData = [{ k: 'ALL', label: 'All', count: BOOKS.length }].concat(
+  Object.keys(cats).sort().map(k => ({ k, label: (CAT_INFO[k]?.name || k), count: cats[k] }))
+);
+chipsEl.innerHTML = chipData.map(c => {
+  const dot = c.k === 'ALL' ? '' : `<span class="dot" style="--chip-c:${CAT_INFO[c.k]?.color || '#2563A8'}"></span>`;
+  return `<button class="chip ${c.k === 'ALL' ? 'active' : ''}" data-cat="${c.k}">${dot}${c.label} <span class="count">${c.count}</span></button>`;
+}).join('');
+
+chipsEl.addEventListener('click', e => {
+  const btn = e.target.closest('.chip');
+  if (!btn) return;
+  state.cat = btn.dataset.cat;
+  for (const c of chipsEl.querySelectorAll('.chip')) c.classList.toggle('active', c.dataset.cat === state.cat);
+  render();
+});
+
+q.addEventListener('input', () => { state.q = q.value.trim().toLowerCase(); render(); });
+
+let coverStats = { loaded: 0, failed: 0, total: 0 };
+const loadedCovers = new Set();
+
+function updateLoader() {
+  const seen = coverStats.loaded + coverStats.failed;
+  bar.style.width = coverStats.total ? Math.round(seen / coverStats.total * 100) + '%' : '0%';
+  loaderCount.textContent = `${coverStats.loaded}/${coverStats.total}`;
+  if (seen >= coverStats.total && coverStats.total > 0) {
+    loaderText.innerHTML = `<b>${coverStats.loaded}</b> real covers loaded (${coverStats.failed} not in OpenLibrary). Title cards stay for the rest.`;
+    setTimeout(() => { loader.hidden = true; }, 4000);
+  }
+}
+
+// Cover sources tried in order per ISBN. The first that returns an image
+// large enough to be real is kept; otherwise we keep the title card.
+function coverSources(isbn) {
+  return [
+    `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`,
+    `https://books.google.com/books/content?vid=ISBN${isbn}&printsec=frontcover&img=1&zoom=2`,
+    `https://books.google.com/books/content?vid=ISBN${isbn}&printsec=frontcover&img=1&zoom=1`,
+  ];
+}
+function tryRealCover(img) {
+  const isbn = img.dataset.isbn;
+  if (!isbn || loadedCovers.has(isbn)) return;
+  const sources = coverSources(isbn);
+  let i = 0;
+  const next = () => {
+    if (i >= sources.length) {
+      coverStats.failed++; loadedCovers.add(isbn); updateLoader();
+      return;
+    }
+    const url = sources[i++];
+    img.onload = () => {
+      if (img.naturalWidth > 10 && img.naturalHeight > 10) {
+        img.classList.add('loaded');
+        coverStats.loaded++; loadedCovers.add(isbn); updateLoader();
+      } else {
+        next();
+      }
+    };
+    img.onerror = next;
+    img.src = url;
+  };
+  next();
+}
+
+function render() {
+  const books = BOOKS.filter(b => {
+    if (state.cat !== 'ALL' && b.cat !== state.cat) return false;
+    if (state.q) {
+      const hay = (b.title + ' ' + b.author + ' ' + b.call + ' ' + b.isbn + ' ' + b.section + ' ' + (b.dewey || '')).toLowerCase();
+      if (!hay.includes(state.q)) return false;
+    }
+    return true;
+  });
+
+  shownCount.textContent = books.length;
+  empty.hidden = books.length > 0;
+  grid.hidden = books.length === 0;
+
+  if (state.cat === 'ALL' && !state.q) {
+    hint.innerHTML = `Showing all <b>${books.length}</b> Primary &amp; Secondary books. Filter by category or search above.`;
+  } else {
+    const bits = [];
+    if (state.cat !== 'ALL') bits.push(`category <b>${CAT_INFO[state.cat]?.name || state.cat}</b>`);
+    if (state.q) bits.push(`matching <b>"${state.q}"</b>`);
+    hint.innerHTML = `${books.length} book${books.length === 1 ? '' : 's'} ${bits.join(' and ')}.`;
+  }
+
+  grid.innerHTML = books.map(b => {
+    const info = CAT_INFO[b.cat] || { color: '#2563A8', tint: '#E4EEFE' };
+    const style = `--c:${info.color}; --c-tint:${info.tint}`;
+    const isbnOk = b.isbn && /^\d{10,13}$/.test(b.isbn);
+    const safeTitle = b.title.replace(/</g, '&lt;');
+    const safeAuthor = b.author.replace(/</g, '&lt;');
+    return `
+      <div class="card" style="${style}">
+        <div class="band">
+          <span class="num">#${b.n}</span>
+          <span class="call">${b.call}</span>
+        </div>
+        <div class="cover">
+          ${fauxCover(b)}
+          ${isbnOk ? `<img data-isbn="${b.isbn}" alt="">` : ''}
+        </div>
+        <div class="body">
+          <div class="title">${safeTitle}</div>
+          <div class="meta">${safeAuthor}</div>
+          <div class="foot">
+            <span>${b.age || ''}</span>
+            <span class="added">${(b.added || '').toUpperCase()}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const imgs = Array.from(grid.querySelectorAll('img[data-isbn]')).filter(i => !loadedCovers.has(i.dataset.isbn));
+  if (imgs.length) {
+    coverStats.total = loadedCovers.size + imgs.length;
+    loader.hidden = false;
+    updateLoader();
+    for (const img of imgs) tryRealCover(img);
+  }
+}
+
+const toggleBtn = document.getElementById('themeToggle');
+try {
+  const saved = localStorage.getItem('primary-theme');
+  if (saved === 'dark' || saved === 'light') document.documentElement.setAttribute('data-theme', saved);
+} catch(e) {}
+toggleBtn.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : (cur === 'light' ? '' : 'dark');
+  if (next) document.documentElement.setAttribute('data-theme', next);
+  else document.documentElement.removeAttribute('data-theme');
+  try { localStorage.setItem('primary-theme', next || ''); } catch(e) {}
+});
+
+render();
+</script>
+
+</body>
+</html>
